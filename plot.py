@@ -39,5 +39,3 @@ fig.colorbar(surf, shrink=0.5, aspect=2)
 
 plt.show()
 """
-
-# %%

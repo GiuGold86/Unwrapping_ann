@@ -54,7 +54,7 @@ w_h_o = np.random.uniform(-0.5, 0.5, (output_layer, hidden_neuron))
 b_i_h = np.zeros((hidden_neuron, 1))
 b_h_o = np.zeros((output_layer, 1))
 
-learn_rate = 0.1
+learn_rate = 0.001
 nr_correct = 0
 epochs = 50
 cicli= 0
@@ -119,24 +119,24 @@ while epochs > cicli:
     plt.subplot(233)
     plt.imshow(o.reshape(len(numpytxt), len(numpytxt[0])), )
     plt.gca().set_title('unwrappcalc')
-    plt.pause(0.000001)
+    plt.pause(0.01)
     cicli = cicli + 1
 
-while 1:
+# while 1:
    
     
     
-    print("finito")
+#     print("finito")
       
-    plt.subplot(231)
-    plt.imshow(input.reshape(len(numpytxt), len(numpytxt[0])), )
-    plt.gca().set_title('wrapp')
-    plt.subplot(232)
-    plt.imshow(target.reshape(len(numpytxt), len(numpytxt[0])), )
-    plt.gca().set_title('unwrapp')
-    plt.subplot(233)
-    plt.imshow(o.reshape(len(numpytxt), len(numpytxt[0])), )
-    plt.gca().set_title('unwrappcalc') 
-    plt.show()
+#     plt.subplot(231)
+#     plt.imshow(input.reshape(len(numpytxt), len(numpytxt[0])), )
+#     plt.gca().set_title('wrapp')
+#     plt.subplot(232)
+#     plt.imshow(target.reshape(len(numpytxt), len(numpytxt[0])), )
+#     plt.gca().set_title('unwrapp')
+#     plt.subplot(233)
+#     plt.imshow(o.reshape(len(numpytxt), len(numpytxt[0])), )
+#     plt.gca().set_title('unwrappcalc') 
+#     plt.show()
 
 

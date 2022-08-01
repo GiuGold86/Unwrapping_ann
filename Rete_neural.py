@@ -13,9 +13,9 @@ from mpl_toolkits.mplot3d import Axes3D
 
 
 ############### Genera l'immagine wrappata e unwrappata da una funzione
-resolution = 0.05
-minrange = -20
-maxrange = 20
+resolution = 0.1
+minrange = -10
+maxrange = 10
 def z_func(x,y):
  return  1-abs(x+y)-abs(y-x) # (x**2+y**2)**0.5    # piramide 1-abs(x+y)-abs(y-x)    #(np.sin(np.sqrt(x**2 + y**2)))*6  ##########Funzione
  
@@ -70,11 +70,11 @@ nr_correct = 0
 epochs = 500
 cicli= 0
 nr_correct = 0
-soglia = 0.001
+soglia = 0.1
 transfetforward = "gaussian" # "relu" "gaussian" "sigmoid"
 transferback = "gaussian"
 errore = 1000
-while errore> soglia:
+while errore > soglia:
     # Forward propagation input -> hidden
     h_pre = b_i_h + w_i_h @ input
     
@@ -88,7 +88,7 @@ while errore> soglia:
     
     if transfetforward == "sigmoid":
         h  =  1 / (1 + np.exp(-h_pre))
-   
+    
 
     # Forward propagation hidden -> output
     o_pre = b_h_o + w_h_o @ h
@@ -103,7 +103,18 @@ while errore> soglia:
     
     if transferback == "sigmoid":
         o  =  1 / (1 + np.exp(-o_pre))       
-
+    
+    plt.clf()    
+    plt.subplot(231)
+    plt.imshow(input.reshape(len(Z), len(Z)), )
+    plt.gca().set_title('wrapp')
+    plt.subplot(232)
+    plt.imshow(target.reshape(len(Z), len(Z)), )
+    plt.gca().set_title('unwrapp')
+    plt.subplot(233)
+    plt.imshow(o.reshape(len(Z), len(Z)), )
+    plt.gca().set_title('unwrappcalc')
+    plt.pause(0.01)
     
     # Cost / Error calculation
     e = 1 / len(o) * np.sum((o - target) ** 2, axis=0)
@@ -119,24 +130,14 @@ while errore> soglia:
     w_i_h += -learn_rate * delta_h @ np.transpose(input)
     b_i_h += -learn_rate * delta_h
 
-    plt.clf()    
-    plt.subplot(231)
-    plt.imshow(input.reshape(len(Z), len(Z)), )
-    plt.gca().set_title('wrapp')
-    plt.subplot(232)
-    plt.imshow(target.reshape(len(Z), len(Z)), )
-    plt.gca().set_title('unwrapp')
-    plt.subplot(233)
-    plt.imshow(o.reshape(len(Z), len(Z)), )
-    plt.gca().set_title('unwrappcalc')
-    plt.pause(0.0000001)
+
     cicli = cicli + 1
 
 
 while 1:
     fig , ax = plt.subplots(subplot_kw={"projection": "3d"})
     
-    surf2 = ax.plot_surface(X, Y, inputZ.reshape(len(Z), len(Z)),rstride=1, cstride=1, cmap=cm.coolwarm, linewidth=0, antialiased=False)
+    surf2 = ax.plot_surface(X, Y, target.reshape(len(Z), len(Z)),rstride=1, cstride=1, cmap=cm.coolwarm, linewidth=0, antialiased=False)
     fig.colorbar(surf2, shrink=0.5, aspect=10)
        
     surf2 = ax.plot_surface(X, Y, o.reshape(len(Z), len(Z)),rstride=1, cstride=1, cmap=cm.viridis, linewidth=0, antialiased=False)
