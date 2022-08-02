@@ -4,40 +4,46 @@ from matplotlib import container, pyplot as plt
 import numpy as np
 from pylab import meshgrid,cm,imshow,contour,clabel,colorbar,axis,title,show
 import numpy as np
-from matplotlib import pyplot as plt
+import matplotlib.pyplot as plt
 from matplotlib.ticker import LinearLocator
 from numpy import asarray, conjugate
 from numpy import savetxt
+from tqdm import tqdm 
 
-numpytxt=np.loadtxt('Monti_picentini_ascii.txt')
+areaG = 30  #grandezza area
+
+numpytxt=np.loadtxt('DEM_ITALIA.txt')
 # image_wrapped = np.ma.array(np.angle(np.exp(1j * numpytxt))) #crea l'immagine wrappata 
-areaG = 100    #grandezza area
 reZ = np.reshape(numpytxt, len(numpytxt) * len(numpytxt[0]))
 
 with open("data_wu.txt", "w") as f:
 
-    for i in range(4):
+    for i in tqdm(range(200)):
         x = np.random.randint(0, numpytxt.shape[0]-areaG-1)
         y = np.random.randint(0, numpytxt.shape[1]-areaG-1)
+
         
         wrapp = numpytxt[x:x+areaG, y:y+areaG].astype(np.int64)
-        unwrap = np.ma.array(np.angle(np.exp(1j * wrapp)))
 
-        fmt_str = " ".join(["{:d}" for i in range(areaG*areaG)])
-        fmt_str += ", " + " ".join(["{:.1f}" for i in range(areaG*areaG)]) + "\n"
+        if np.sum(wrapp) == 0:
+            continue
 
-        f.write(fmt_str.format(*wrapp.flatten(), *unwrap.flatten()))
+        unwrapp = np.ma.array(np.angle(np.exp(1j * wrapp)))
+
+        fmt_str = " ".join(["{:.1f}" for i in range(areaG*areaG)])
+        fmt_str += ", " + " ".join(["{:.10f}" for i in range(areaG*areaG)]) + "\n"
+
+        f.write(fmt_str.format(*wrapp.flatten(), *unwrapp.flatten()))
 
 
 # with open("data_wu.txt", "r") as f:
 #     data = f.read().split("\n")
 
-# wrapp, unwrapp = data[0].split(",")
-# wrapp = np.fromstring(wrapp, dtype=int, sep=' ')
+
+# wrapp, unwrapp = data[4].split(",")
+# wrapp = np.fromstring(wrapp, dtype=float, sep=' ')
 # unwrapp = np.fromstring(unwrapp, dtype=float, sep=' ')
-
-
-
+# # print(wrapp.shape)
 
 # plt.subplot(1, 2, 1)
 # plt.imshow(wrapp.reshape(areaG, areaG))
@@ -47,6 +53,10 @@ with open("data_wu.txt", "w") as f:
 
 # plt.show()
 
+# data = np.array([i.split(",") for i in data[:-1]])
+# wrapp = np.array([np.fromstring(i, dtype=float, sep=' ') for i in data[:,0]])
+# unwrapp = np.array([np.fromstring(i, dtype=float, sep=' ') for i in data[:,1]])
+# print(unwrapp)
 
 """ tuo schifoso
 seme = int(np.random.uniform(0, 200))

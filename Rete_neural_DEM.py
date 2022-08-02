@@ -46,8 +46,7 @@ e.g. w_i_h = weights from input layer to hidden layer
 """
 
 input  = (outputW - (-np.pi)) / (np.pi - (-np.pi)) #normalizzazione delle variabili
-target = (inputZ -  (10))  / (1000 -  (10)) #/ np.linalg.norm(inputZ)     #normalizzazione delle variabili
-
+target = (inputZ -  (0))  / (3000 -  (0))  #normalizzazione delle variabili
 
 w_i_h = np.random.uniform(-0.5, 0.5, (hidden_neuron, input_layer))
 w_h_o = np.random.uniform(-0.5, 0.5, (output_layer, hidden_neuron))
@@ -57,7 +56,7 @@ b_h_o = np.zeros((output_layer, 1))
 learn_rate = 0.001
 nr_correct = 0
 epochs = 50
-cicli= 0
+cicli = 0
 nr_correct = 0
 soglia = 0.001
 transfetforward = "gaussian" # "relu" "gaussian" "sigmoid"
@@ -65,6 +64,7 @@ transferback = "gaussian"
 errore = 1000
 
 while epochs > cicli:
+
     # Forward propagation input -> hidden
     h_pre = b_i_h + w_i_h @ input
     
@@ -121,6 +121,9 @@ while epochs > cicli:
     plt.gca().set_title('unwrappcalc')
     plt.pause(0.01)
     cicli = cicli + 1
+
+
+# applichi
 
 # while 1:
    
